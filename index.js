@@ -1,13 +1,13 @@
 
-function getRndInteger(min, max) {
+const getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function getComputerChoice(){
+const getComputerChoice = ()=>{
     return getRndInteger(1,3);
 }
 
-function printChoice(Choice, player) {
+const printChoice = (Choice, player)=> {
     if(Choice == 1) {
         console.log(player, " :Rock");
     }else if (Choice == 2){
@@ -18,7 +18,7 @@ function printChoice(Choice, player) {
         console.log(player, " :invalid input");
     }
 }
-function printResult(result){
+const printResult = (result)=>{
     if(result == 1){
         console.log("you win!");
     }else if(result == 0){
@@ -29,7 +29,7 @@ function printResult(result){
         console.log("invalid input!");
     }
 }
-function youWin(computerChoice, yourChoice){
+const youWin = (computerChoice, yourChoice) => {
     if(yourChoice == computerChoice) {
         return -1;
     } else if (yourChoice == 1) {
@@ -56,11 +56,13 @@ function youWin(computerChoice, yourChoice){
     console.log("invalid input");
 }
 
+const playGame = () => {
+    const playerChoice = prompt("please enter your choice");
+    const computerChoice = getComputerChoice();
+    let result = youWin(computerChoice, playerChoice);
+    printChoice(playerChoice);
+    printChoice(computerChoice);
+    printResult(result);
+}
 
-const playerChoice = prompt("please enter your choice");
-const computerChoice = getComputerChoice();
-let result = youWin(computerChoice, playerChoice);
-printChoice(playerChoice);
-printChoice(computerChoice);
-printResult(result);
-
+playGame();
