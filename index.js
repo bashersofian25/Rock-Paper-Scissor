@@ -1,68 +1,97 @@
 
+const Rock = document.getElementById('rock');
+const Paper = document.getElementById('paper');
+const Scissor = document.getElementById('scissor');
+const roundResult = document.getElementById('result');
+const grandResult = document.getElementById('grand-result');
+
+const choices = ['Rock', 'Paper', 'Scissor'];
+
+const gameStatus = {
+    computerWins: 0,
+    playerWins: 0
+}
+
+
 const getRndInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
 const getComputerChoice = ()=>{
-    return getRndInteger(1,3);
+    return getRndInteger(0,2);
 }
 
-const printChoice = (Choice, player)=> {
-    if(Choice == 1) {
-        console.log(player, " :Rock");
-    }else if (Choice == 2){
-        console.log(player, " :Paper");
-    }else if(Choice == 3){
-        console.log(player, " :Scissor");
-    }else {
-        console.log(player, " :invalid input");
-    }
+const resetGame = () => {
+    gameStatus.computerWins = 0;
+    gameStatus.computerWins = 0;
+    roundResult.value = '';
+    grandResult.value = 'In Progress'
+
 }
-const printResult = (result)=>{
-    if(result == 1){
-        console.log("you win!");
-    }else if(result == 0){
-        console.log("you lose!");
-    }else if(result == -1){
-        console.log("draw!");
+const checkStatus = () => {
+    if(gameStatus.computerWins >= 5) {
+        resetGame();
+        return 'Computer Wins';
+    }else if(gameStatus.playerWins >= 5) {
+        resetGame();
+        return 'Player Wins';
     }else {
-        console.log("invalid input!");
+        return 'In Progress';
     }
+
 }
-const youWin = (computerChoice, yourChoice) => {
+
+const whoWins = (computerChoice, yourChoice) => {
     if(yourChoice == computerChoice) {
-        return -1;
-    } else if (yourChoice == 1) {
-        if(computerChoice == 2) {
-            return 0;
+        return 'draw';
+    } else if (yourChoice == 'Rock') {
+        if(computerChoice == 'Paper') {
+            gameStatus.computerWins++;
+            return 'lost';
+           
         }else {
-            return 1;
+            gameStatus.playerWins++;
+            return 'won';
+            
         }
 
-    }else if (yourChoice == 2) {
-        if (computerChoice == 3) {
-            return 0;
+    }else if (yourChoice == 'Paper') {
+        if (computerChoice == 'Scissor') {
+            gameStatus.computerWins++;
+            return 'lost';
+           
         }else {
-            return 1;
+            gameStatus.playerWins++;
+            return 'won';
         }
-    }else if(yourChoice == 3){
-        if (computerChoice == 1){
-            return 0;
+    }else if(yourChoice == 'Scissor'){
+        if (computerChoice == 'Rock'){
+            gameStatus.computerWins++;
+            return 'lost';
         }else{
-            return 1;
+            gameStatus.playerWins++;
+            return 'won';
         }
     }
-    return -2;// invalid input
-    console.log("invalid input");
 }
 
-const playGame = () => {
-    const playerChoice = prompt("please enter your choice");
-    const computerChoice = getComputerChoice();
-    let result = youWin(computerChoice, playerChoice);
-    printChoice(playerChoice);
-    printChoice(computerChoice);
-    printResult(result);
+const playGame = (event) => {
+    const playerChoice = event.target.innerText;
+    const computerChoice = choices[getComputerChoice()];
+    const result = whoWins(computerChoice, playerChoice);
+    roundResult.innerText= `you ${result}`;
+    grandResult.innerText= checkStatus();
 }
 
-playGame();
+Rock.addEventListener('click', (event) => {
+    playGame(event);
+});
+
+Paper.addEventListener('click', (event) => {
+    playGame(event);
+});
+
+Scissor.addEventListener('click', (event) => {
+    playGame(event);
+});
+
